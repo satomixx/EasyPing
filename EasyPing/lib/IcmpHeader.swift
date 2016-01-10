@@ -16,5 +16,6 @@ struct IcmpHeader {
     var seq:UInt16
 }
 
-// パケットの最小サイズ64になるように56オクテットのペーロードを追加
+
+// Add octed 56 payload to make packet size minimum 64
 let IcmpHeaderLen = Int(sizeof(IcmpHeader))+56

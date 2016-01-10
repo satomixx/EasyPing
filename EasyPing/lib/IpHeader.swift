@@ -21,5 +21,5 @@ struct IpHeader {
     var dstAddr:UInt32 = 0
 }
 
-// オプション無しで20オクテットに固定
+// Set 20 octed with no option
 let IpHeaderLen = Int(sizeof(IpHeader))

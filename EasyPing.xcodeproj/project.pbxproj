@@ -12,7 +12,7 @@
 		8997A6381C412659000476CD /* EasyPingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A6371C412659000476CD /* EasyPingTests.swift */; };
 		8997A65D1C412BD3000476CD /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A6581C412BD3000476CD /* Cast.swift */; };
 		8997A65E1C412BD3000476CD /* IpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A6591C412BD3000476CD /* IpHeader.swift */; };
-		8997A65F1C412BD3000476CD /* NetName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A65A1C412BD3000476CD /* NetName.swift */; };
+		8997A65F1C412BD3000476CD /* DomainName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A65A1C412BD3000476CD /* DomainName.swift */; };
 		8997A6611C412BD3000476CD /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A65C1C412BD3000476CD /* Result.swift */; };
 		8997A6631C412BF8000476CD /* IcmpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A6621C412BF8000476CD /* IcmpHeader.swift */; };
 		8997A6651C412CF0000476CD /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8997A6641C412CF0000476CD /* Ping.swift */; };
@@ -37,7 +37,7 @@
 		8997A6391C412659000476CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8997A6581C412BD3000476CD /* Cast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cast.swift; path = lib/Cast.swift; sourceTree = "<group>"; };
 		8997A6591C412BD3000476CD /* IpHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IpHeader.swift; path = lib/IpHeader.swift; sourceTree = "<group>"; };
-		8997A65A1C412BD3000476CD /* NetName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetName.swift; path = lib/NetName.swift; sourceTree = "<group>"; };
+		8997A65A1C412BD3000476CD /* DomainName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DomainName.swift; path = lib/DomainName.swift; sourceTree = "<group>"; };
 		8997A65C1C412BD3000476CD /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Result.swift; path = lib/Result.swift; sourceTree = "<group>"; };
 		8997A6621C412BF8000476CD /* IcmpHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IcmpHeader.swift; path = lib/IcmpHeader.swift; sourceTree = "<group>"; };
 		8997A6641C412CF0000476CD /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ping.swift; path = lib/Ping.swift; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 				8997A6621C412BF8000476CD /* IcmpHeader.swift */,
 				8997A6581C412BD3000476CD /* Cast.swift */,
 				8997A6591C412BD3000476CD /* IpHeader.swift */,
-				8997A65A1C412BD3000476CD /* NetName.swift */,
+				8997A65A1C412BD3000476CD /* DomainName.swift */,
 				8997A65C1C412BD3000476CD /* Result.swift */,
 			);
 			name = lib;
@@ -221,7 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8997A6611C412BD3000476CD /* Result.swift in Sources */,
-				8997A65F1C412BD3000476CD /* NetName.swift in Sources */,
+				8997A65F1C412BD3000476CD /* DomainName.swift in Sources */,
 				8997A65E1C412BD3000476CD /* IpHeader.swift in Sources */,
 				8997A6651C412CF0000476CD /* Ping.swift in Sources */,
 				8997A65D1C412BD3000476CD /* Cast.swift in Sources */,
@@ -411,6 +411,7 @@
 				8997A63E1C412659000476CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8997A63F1C412659000476CD /* Build configuration list for PBXNativeTarget "EasyPingTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +420,7 @@
 				8997A6411C412659000476CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

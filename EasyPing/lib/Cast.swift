@@ -9,14 +9,13 @@
 import Foundation
 
 class Cast:NSObject{
-    
-    // 指定バイト数のUInt8ポインタに変換する
-    class func ptr(p:UnsafePointer<Void>,len:Int) -> UnsafePointer<UInt8> {
+    // Convert to UInt8 pointer of figured bytes
+    class func ptr(p:UnsafePointer<Void>, len:Int) -> UnsafePointer<UInt8> {
         let data = NSData(bytes: p, length: len)
         return UnsafePointer<UInt8>(data.bytes)
     }
     
-    // 型を指定して直接キャストする
+    // Figure type and directly cast
     class func direct<T>(data:UnsafePointer<Void>) -> T{
         let d = NSData(bytes: data, length: sizeof(T))
         return UnsafePointer<T>(d.bytes).memory

@@ -8,8 +8,14 @@
 import Foundation
 
 protocol PingDelegate {
-    func sended(sendBytes:Int)
-    func recved(recvBytes:Int,srcAddr:String,icmpType:UInt8,msec:NSTimeInterval,id:Int) // 受信完了時
+    func sended(sendedBytes:Int)
+    func received(
+        receivBytes:Int,
+        srcAddr:String,
+        icmpType:UInt8,
+        msec:NSTimeInterval,
+        id:Int
+    )
     func err(message:String)
 }
 
@@ -20,7 +26,7 @@ class Ping:NSObject{
     func send(url:String, id:Int, ttl:UInt32, max: Int) -> Int? {
         print("send, url: \(url), id: \(id), ttl: \(ttl), max: \(max)")
         
-        var ar = NetName.toAddr(url) // url -> ip address
+        var ar = DomainName.hostToIpAddresses(url)
         print("ar: \(ar)")
         var ipAddr: String = ""
         if ar.count > 0 {
@@ -49,7 +55,8 @@ class Ping:NSObject{
         sockaddrIn.sin_family = UInt8(AF_INET)
         sockaddrIn.sin_addr.s_addr = inet_addr(ipAddr)
         sockaddrIn.sin_len = UInt8(sizeof(sockaddr_in))
-        // sockaddr_in を sockaddr にキャストする
+
+        // Cast sockaddr_in to sockaddr
         var addr = (Cast.direct(&sockaddrIn) as sockaddr)
         let addrLen = UInt32(sizeof(sockaddr_in))
         
@@ -66,46 +73,48 @@ class Ping:NSObject{
         var buf = [Int8](count:bufLen,repeatedValue:0)
         var packet:NSData
         var ipHeader = IpHeader()
-        var recvBytes = 0
+        var receivedBytes = 0
         while(true){
-            recvBytes = recv(sock, &buf, bufLen, 0);
+            receivedBytes = recv(sock, &buf, bufLen, 0);
             
-            packet = NSData(bytes: buf, length: recvBytes)
+            packet = NSData(bytes: buf, length: receivedBytes)
             ipHeader = UnsafePointer<IpHeader>(packet.subdataWithRange(NSMakeRange(0,IpHeaderLen)).bytes).memory
             let ipHdrlen = Int((ipHeader.verLen & 0x0F)*4)
-            // ICMPヘッダのデコード(ICMPヘッダの最初サイズ8オクテットだけ取得する)
+            
             icmpHdr = UnsafePointer<IcmpHeader>(packet.subdataWithRange(NSMakeRange(ipHdrlen,8)).bytes).memory
             
             if(icmpHdr.type==0){
                 if( icmpHdr.id == UInt16(id)){
-                    // ICMPの
-                    //print(String(format:"type==0 seq=%d id =%d break",icmpHdr.seq,icmpHdr.id))
+                    // print(String(format:"type==0 seq=%d id =%d break",icmpHdr.seq,icmpHdr.id))
                     break
                 }else{
-                    //print(String(format:"type==0 seq=%d id =%d",icmpHdr.seq,icmpHdr.id))
+                    // print(String(format:"type==0 seq=%d id =%d",icmpHdr.seq,icmpHdr.id))
                 }
             }else if(icmpHdr.type==11){
-                // ICMPパケットのデータ領域にある送信データのコピーをデコードする
-                // 送信ICMPヘッダ
+                // Decode copy of sended data in data area of ICMP packet
+                // Sended ICMP Header
                 let h = UnsafePointer<IcmpHeader>(packet.subdataWithRange(NSMakeRange(20+8+20,8)).bytes).memory
                 if(UInt16(id) == h.id){
                     break
                 }
-                
             }
-            
         }
+        
         let msec = NSDate().timeIntervalSinceDate(startTime)
         
-        
-        // 送信元IPアドレスのデコード
+        // Decode IP address of sender
         let m1 = (ipHeader.srcAddr & 0xFF000000) >> 24
         let m2 = (ipHeader.srcAddr & 0x00FF0000) >> 16
         let m3 = (ipHeader.srcAddr & 0x0000FF00) >> 8
         let m4 = (ipHeader.srcAddr & 0x000000FF)
         let srcAddr = String(format: "%d.%d.%d.%d",m4,m3,m2,m1)
         
-        delegate?.recved(recvBytes, srcAddr: srcAddr, icmpType: icmpHdr.type, msec:msec,id: id)
+        delegate?.received(
+            receivedBytes,
+            srcAddr: srcAddr,
+            icmpType: icmpHdr.type,
+            msec:msec,id: id
+        )
         
         return Int(icmpHdr.type)
     }
